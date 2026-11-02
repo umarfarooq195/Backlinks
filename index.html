@@ -29,6 +29,12 @@
   .card .val { font-size: 16.5px; font-weight: 700; margin-top: 5px; word-break: break-word; }
   .card .val a { color: var(--ink); text-decoration: none; } .card .val a:hover { color: var(--accent); }
   .card .sub { font-size: 13px; color: var(--accent); margin-top: 3px; font-weight: 600; }
+  #mkd-strip { display: flex; align-items: center; gap: 10px 22px; flex-wrap: wrap; background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 11px 16px; margin-bottom: 16px; }
+  .mkd-title { font-weight: 800; color: var(--accent); font-size: 13px; text-transform: uppercase; letter-spacing: .7px; }
+  .mkd-item { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 600; }
+  .mkd-item img { width: 16px; height: 16px; }
+  .mkd-item .kw { color: var(--mut); font-weight: 500; font-size: 12.5px; }
+  .mkd-item .kdval { font-size: 17px; font-weight: 800; color: var(--ink); }
   .bar { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin: 20px 0 2px; }
   .refbtn { background: var(--accent); color: #fff; border: none; padding: 10px 18px; border-radius: 9px; font-size: 14px; cursor: pointer; font-weight: 600; font-family: inherit; transition: background .15s; }
   .refbtn:hover { background: #0b5e57; }
@@ -74,6 +80,7 @@
   <div><h1>Sites &amp; Backlinks</h1><div class="sub">Competitor aur backlink tracking — har site ka apna tab</div></div>
 </div></header>
 <main>
+  <div id="mkd-strip"></div>
   <div class="tabs" id="tabs"></div>
   <div id="panels"></div>
 </main>
@@ -104,6 +111,8 @@ function ageText(iso, approx){
 function dateText(iso){ if(!iso) return '<span class="pend">—</span>'; var d=new Date(iso+'T00:00:00Z'); return d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'}); }
 
 function render(){
+  var strip=document.getElementById('mkd-strip');
+  if(strip){ var sh='<span class="mkd-title">Moz KD</span>'; SITES.forEach(function(site){ sh += '<span class="mkd-item">'+fav(site.domain)+' '+esc(site.name)+' <span class="kw">&quot;'+esc(site.keyword)+'&quot;</span> '+(site.mozKD==null?'<span class="pend">— pending</span>':'<span class="kdval">'+site.mozKD+'</span>')+'</span>'; }); strip.innerHTML=sh; }
   var tabs=document.getElementById('tabs'), panels=document.getElementById('panels');
   tabs.innerHTML=''; panels.innerHTML='';
   SITES.forEach(function(site, i){
