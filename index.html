@@ -149,7 +149,7 @@ function panelHTML(site){
   h += '<h2>Top Sites — “'+esc(site.keyword)+'” (US SERP)</h2>';
   h += '<div class="tblwrap"><table><thead><tr><th>#</th><th data-sort data-type="text">Site</th><th data-sort data-type="num">DR</th><th data-sort data-type="num">Moz DA</th><th class="num" data-sort data-type="num">Traffic (Site Explorer)</th><th data-sort data-type="date">Domain Age</th><th class="num" data-sort data-type="num">Sitemap Pages</th><th class="num" data-sort data-type="num">Sitemap Posts</th><th class="num" data-sort data-type="num">Backlinks</th><th class="num" data-sort data-type="num">Referring Domains</th></tr></thead><tbody>';
   site.competitors.forEach(function(c, idx){
-    h += '<tr><td><span class="rank">'+(idx+1)+'</span></td><td class="dom" data-v="'+esc(c.domain.toLowerCase())+'">'+fav(c.domain)+'<a href="https://'+esc(c.domain)+'" target="_blank" rel="noopener">'+esc(c.domain)+'</a></td>'
+    h += '<tr><td><span class="rank rownum">'+(idx+1)+'</span></td><td class="dom" data-v="'+esc(c.domain.toLowerCase())+'">'+fav(c.domain)+'<a href="https://'+esc(c.domain)+'" target="_blank" rel="noopener">'+esc(c.domain)+'</a></td>'
        + '<td data-v="'+(c.dr==null?-1:c.dr)+'">'+(c.dr==null?'<span class="pend">—</span>':'<span class="dchip">'+c.dr+'</span>')+'</td>'
        + '<td data-v="'+(c.mozDA==null?-1:c.mozDA)+'">'+(c.mozDA==null?'<span class="pend">—</span>':'<span class="dchip">'+c.mozDA+'</span>')+'</td>'
        + '<td class="num" data-v="'+(c.traffic==null?-1:c.traffic)+'">'+fmtT(c.traffic)+'</td>'
@@ -162,14 +162,15 @@ function panelHTML(site){
   h += '<h2>Backlinks</h2>';
   h += '<div class="filters"><input type="text" placeholder="Domain ya competitor search karein…" oninput="filterRows(\''+site.key+'\', this.value, document.getElementById(\'fstatus-'+site.key+'\').value)">'
      + '<select id="fstatus-'+site.key+'" onchange="filterRows(\''+site.key+'\', document.querySelector(\'#panel-'+site.key+' .filters input\').value, this.value)"><option value="all">Sab status</option><option value="live">Live sirf</option><option value="pending">Pending sirf</option></select></div>';
-  h += '<div class="tblwrap"><table id="bl-'+site.key+'"><thead><tr><th data-sort data-type="text">Domain</th><th data-sort data-type="num">DR</th><th data-sort data-type="num">Moz DA</th><th class="num" data-sort data-type="num">Domain Traffic</th><th data-sort data-type="text">Competitor Domain</th><th data-sort data-type="text">Reference URL</th><th data-sort data-type="text">Dofollow / Nofollow</th><th data-sort data-type="text">Link Live / Pending</th><th data-sort data-type="text">Chosen Thread</th></tr></thead><tbody>';
+  h += '<div class="tblwrap"><table id="bl-'+site.key+'"><thead><tr><th>#</th><th data-sort data-type="text">Domain</th><th data-sort data-type="num">DR</th><th data-sort data-type="num">Moz DA</th><th class="num" data-sort data-type="num">Domain Traffic</th><th data-sort data-type="text">Competitor Domain</th><th data-sort data-type="text">Reference URL</th><th data-sort data-type="text">Dofollow / Nofollow</th><th data-sort data-type="text">Link Live / Pending</th><th data-sort data-type="text">Chosen Thread</th></tr></thead><tbody>';
   if(!site.backlinks.length){
-    h += '<tr><td colspan="9"><div class="empty">Abhi is tab mein koi backlink row nahi.</div></td></tr>';
+    h += '<tr><td colspan="10"><div class="empty">Abhi is tab mein koi backlink row nahi.</div></td></tr>';
   }
-  site.backlinks.forEach(function(r){
+  site.backlinks.forEach(function(r, ri){
     var key = site.key+'|'+r.domain;
     var st = STATE[key] || {s:'pending', t:''};
     h += '<tr data-domain="'+esc(r.domain.toLowerCase())+'" data-comp="'+esc((r.competitors||[]).join(' ').toLowerCase())+'" data-key="'+esc(key)+'">'
+      + '<td><span class="rank rownum">'+(ri+1)+'</span></td>'
       + '<td class="dom" data-v="'+esc(r.domain.toLowerCase())+'">'+fav(r.domain)+'<a href="https://'+esc(r.domain)+'" target="_blank" rel="noopener">'+esc(r.domain)+'</a></td>'
       + '<td data-v="'+(r.dr==null?-1:r.dr)+'">'+(r.dr==null?'<span class="pend">—</span>':'<span class="dchip">'+r.dr+'</span>')+'</td>'
       + '<td data-v="'+(r.mozDA==null?-1:r.mozDA)+'">'+(r.mozDA==null?'<span class="pend">—</span>':'<span class="dchip">'+r.mozDA+'</span>')+'</td>'
@@ -213,6 +214,7 @@ function sortTable(table, idx, dir){
   var rows=Array.prototype.slice.call(tbody.querySelectorAll('tr')).filter(function(r){ return !r.querySelector('.empty') && r.cells.length>idx; });
   rows.sort(function(a,b){ var va=cellVal(a.cells[idx],type), vb=cellVal(b.cells[idx],type); var c=(va<vb)?-1:(va>vb)?1:0; return dir==='asc'?c:-c; });
   rows.forEach(function(r){ tbody.appendChild(r); });
+  rows.forEach(function(r, i){ var c=r.querySelector('.rownum'); if(c) c.textContent=(i+1); });
   SORTS[tableKey(table)]={idx:idx, dir:dir};
 }
 function makeSortable(table){
