@@ -235,10 +235,13 @@ function makeSortable(table){
 function rowStatus(key){ var st=STATE[key]; return st ? st.s : 'pending'; }
 function filterRows(siteKey, text, status){
   text=(text||'').toLowerCase();
+  var n=0;
   document.querySelectorAll('#bl-'+siteKey+' tbody tr[data-domain]').forEach(function(tr){
     var okText = !text || tr.getAttribute('data-domain').indexOf(text)>-1 || tr.getAttribute('data-comp').indexOf(text)>-1;
     var okStatus = status==='all' || rowStatus(tr.getAttribute('data-key'))===status;
-    tr.style.display = (okText && okStatus) ? '' : 'none';
+    var show = (okText && okStatus);
+    tr.style.display = show ? '' : 'none';
+    if(show){ n++; var c=tr.querySelector('.rownum'); if(c) c.textContent=n; }
   });
 }
 
