@@ -42,6 +42,11 @@
   .tblwrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
   table { border-collapse: collapse; width: 100%; font-size: 13.5px; min-width: 780px; }
   th { background: #fbfcfe; text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; font-size: 11.5px; text-transform: uppercase; letter-spacing: .5px; color: var(--mut); font-weight: 600; }
+  th.sortable { cursor: pointer; user-select: none; }
+  th.sortable:hover { color: var(--accent); }
+  th .arr { font-size: 9.5px; color: #b6c2cf; margin-left: 5px; }
+  th.sorted { color: var(--accent); }
+  th.sorted .arr { color: var(--accent); }
   td { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
   tbody tr:last-child td { border-bottom: none; }
   tbody tr:hover { background: #f8fbfa; }
@@ -114,6 +119,7 @@ function render(){
     p.innerHTML = panelHTML(site);
     panels.appendChild(p);
   });
+  document.querySelectorAll('table').forEach(function(t){ makeSortable(t); var k=tableKey(t); if(SORTS[k]) sortTable(t, SORTS[k].idx, SORTS[k].dir); });
 }
 
 function panelHTML(site){
@@ -135,22 +141,22 @@ function panelHTML(site){
   h += '<div class="bar"><button class="refbtn" onclick="requestRefresh(\''+site.key+'\')">↻ &nbsp;Refresh Data</button>'
      + '<div class="progress"><div class="pt">Backlinks: <b>'+live+' live</b> · '+total+' total</div><div class="track"><div class="fill" style="width:'+pct+'%"></div></div></div></div>';
   h += '<h2>Top Sites — “'+esc(site.keyword)+'” (US SERP)</h2>';
-  h += '<div class="tblwrap"><table><thead><tr><th>#</th><th>Site</th><th>DR</th><th>Moz DA</th><th class="num">Traffic (Site Explorer)</th><th>Domain Age</th><th class="num">Sitemap Pages</th><th class="num">Sitemap Posts</th><th class="num">Backlinks</th><th class="num">Referring Domains</th></tr></thead><tbody>';
+  h += '<div class="tblwrap"><table><thead><tr><th>#</th><th data-sort data-type="text">Site</th><th data-sort data-type="num">DR</th><th data-sort data-type="num">Moz DA</th><th class="num" data-sort data-type="num">Traffic (Site Explorer)</th><th data-sort data-type="date">Domain Age</th><th class="num" data-sort data-type="num">Sitemap Pages</th><th class="num" data-sort data-type="num">Sitemap Posts</th><th class="num" data-sort data-type="num">Backlinks</th><th class="num" data-sort data-type="num">Referring Domains</th></tr></thead><tbody>';
   site.competitors.forEach(function(c, idx){
-    h += '<tr><td><span class="rank">'+(idx+1)+'</span></td><td class="dom">'+fav(c.domain)+'<a href="https://'+esc(c.domain)+'" target="_blank" rel="noopener">'+esc(c.domain)+'</a></td>'
-       + '<td>'+(c.dr==null?'<span class="pend">—</span>':'<span class="dchip">'+c.dr+'</span>')+'</td>'
-       + '<td>'+(c.mozDA==null?'<span class="pend">—</span>':'<span class="dchip">'+c.mozDA+'</span>')+'</td>'
-       + '<td class="num">'+fmtN(c.traffic)+'</td>'
-       + '<td>'+ageText(c.reg, c.regApprox)+'<br><span class="pend" style="font-size:11px">'+dateText(c.reg)+'</span></td>'
-       + '<td class="num">'+fmtN(c.pages)+'</td><td class="num">'+fmtN(c.posts)+'</td>'
-       + '<td class="num">'+fmtN(c.backlinks)+'</td><td class="num">'+fmtN(c.refdoms)+'</td></tr>';
+    h += '<tr><td><span class="rank">'+(idx+1)+'</span></td><td class="dom" data-v="'+esc(c.domain.toLowerCase())+'">'+fav(c.domain)+'<a href="https://'+esc(c.domain)+'" target="_blank" rel="noopener">'+esc(c.domain)+'</a></td>'
+       + '<td data-v="'+(c.dr==null?-1:c.dr)+'">'+(c.dr==null?'<span class="pend">—</span>':'<span class="dchip">'+c.dr+'</span>')+'</td>'
+       + '<td data-v="'+(c.mozDA==null?-1:c.mozDA)+'">'+(c.mozDA==null?'<span class="pend">—</span>':'<span class="dchip">'+c.mozDA+'</span>')+'</td>'
+       + '<td class="num" data-v="'+(c.traffic==null?-1:c.traffic)+'">'+fmtN(c.traffic)+'</td>'
+       + '<td data-v="'+esc(c.reg||'9999')+'">'+ageText(c.reg, c.regApprox)+'<br><span class="pend" style="font-size:11px">'+dateText(c.reg)+'</span></td>'
+       + '<td class="num" data-v="'+(c.pages==null?-1:c.pages)+'">'+fmtN(c.pages)+'</td><td class="num" data-v="'+(c.posts==null?-1:c.posts)+'">'+fmtN(c.posts)+'</td>'
+       + '<td class="num" data-v="'+(c.backlinks==null?-1:c.backlinks)+'">'+fmtN(c.backlinks)+'</td><td class="num" data-v="'+(c.refdoms==null?-1:c.refdoms)+'">'+fmtN(c.refdoms)+'</td></tr>';
   });
   h += '</tbody></table></div>';
   if(site.compNote) h += '<div style="font-size:12.5px;color:var(--mut);margin-top:8px">'+esc(site.compNote)+'</div>';
   h += '<h2>Backlinks</h2>';
   h += '<div class="filters"><input type="text" placeholder="Domain ya competitor search karein…" oninput="filterRows(\''+site.key+'\', this.value, document.getElementById(\'fstatus-'+site.key+'\').value)">'
      + '<select id="fstatus-'+site.key+'" onchange="filterRows(\''+site.key+'\', document.querySelector(\'#panel-'+site.key+' .filters input\').value, this.value)"><option value="all">Sab status</option><option value="live">Live sirf</option><option value="pending">Pending sirf</option></select></div>';
-  h += '<div class="tblwrap"><table id="bl-'+site.key+'"><thead><tr><th>Domain</th><th>DR</th><th>Moz DA</th><th class="num">Domain Traffic</th><th>Competitor Domain</th><th>Reference URL</th><th>Dofollow / Nofollow</th><th>Link Live / Pending</th><th>Chosen Thread</th></tr></thead><tbody>';
+  h += '<div class="tblwrap"><table id="bl-'+site.key+'"><thead><tr><th data-sort data-type="text">Domain</th><th data-sort data-type="num">DR</th><th data-sort data-type="num">Moz DA</th><th class="num" data-sort data-type="num">Domain Traffic</th><th data-sort data-type="text">Competitor Domain</th><th data-sort data-type="text">Reference URL</th><th data-sort data-type="text">Dofollow / Nofollow</th><th data-sort data-type="text">Link Live / Pending</th><th data-sort data-type="text">Chosen Thread</th></tr></thead><tbody>';
   if(!site.backlinks.length){
     h += '<tr><td colspan="9"><div class="empty">Abhi is tab mein koi backlink row nahi.</div></td></tr>';
   }
@@ -158,13 +164,13 @@ function panelHTML(site){
     var key = site.key+'|'+r.domain;
     var st = STATE[key] || {s:'pending', t:''};
     h += '<tr data-domain="'+esc(r.domain.toLowerCase())+'" data-comp="'+esc((r.competitors||[]).join(' ').toLowerCase())+'" data-key="'+esc(key)+'">'
-      + '<td class="dom">'+fav(r.domain)+'<a href="https://'+esc(r.domain)+'" target="_blank" rel="noopener">'+esc(r.domain)+'</a></td>'
-      + '<td>'+(r.dr==null?'<span class="pend">—</span>':'<span class="dchip">'+r.dr+'</span>')+'</td>'
-      + '<td>'+(r.mozDA==null?'<span class="pend">—</span>':'<span class="dchip">'+r.mozDA+'</span>')+'</td>'
-      + '<td class="num">'+fmtN(r.traffic)+'</td>'
-      + '<td class="multi">'+esc((r.competitors||[]).join('\n'))+'</td>'
-      + '<td class="multi">'+(r.refs||[]).map(function(u){return '<a href="'+esc(u)+'" target="_blank" rel="noopener">'+esc(u)+'</a>';}).join('<br>')+'</td>'
-      + '<td>'+esc(r.follow||'—')+'</td>'
+      + '<td class="dom" data-v="'+esc(r.domain.toLowerCase())+'">'+fav(r.domain)+'<a href="https://'+esc(r.domain)+'" target="_blank" rel="noopener">'+esc(r.domain)+'</a></td>'
+      + '<td data-v="'+(r.dr==null?-1:r.dr)+'">'+(r.dr==null?'<span class="pend">—</span>':'<span class="dchip">'+r.dr+'</span>')+'</td>'
+      + '<td data-v="'+(r.mozDA==null?-1:r.mozDA)+'">'+(r.mozDA==null?'<span class="pend">—</span>':'<span class="dchip">'+r.mozDA+'</span>')+'</td>'
+      + '<td class="num" data-v="'+(r.traffic==null?-1:r.traffic)+'">'+fmtN(r.traffic)+'</td>'
+      + '<td class="multi" data-v="'+esc((r.competitors||[]).join(' ').toLowerCase())+'">'+esc((r.competitors||[]).join('\n'))+'</td>'
+      + '<td class="multi" data-v="'+esc(((r.refs||[])[0]||'').toLowerCase())+'">'+(r.refs||[]).map(function(u){return '<a href="'+esc(u)+'" target="_blank" rel="noopener">'+esc(u)+'</a>';}).join('<br>')+'</td>'
+      + '<td data-v="'+esc((r.follow||'').toLowerCase())+'">'+esc(r.follow||'—')+'</td>'
       + '<td><select class="status '+st.s+'" data-key="'+esc(key)+'" onchange="setStatus(this)"><option value="pending"'+(st.s==='pending'?' selected':'')+'>Pending</option><option value="live"'+(st.s==='live'?' selected':'')+'>Live</option></select></td>'
       + '<td><input class="thread" data-key="'+esc(key)+'" placeholder="Thread URL paste karein…" value="'+esc(st.t||'')+'" oninput="setThread(this)"></td>'
       + '</tr>';
@@ -173,6 +179,50 @@ function panelHTML(site){
   return h;
 }
 function card(lbl, val, sub){ return '<div class="card"><div class="lbl">'+lbl+'</div><div class="val">'+val+'</div>'+(sub?'<div class="sub">'+sub+'</div>':'')+'</div>'; }
+
+var SORTS = {};
+function tableKey(t){ if(t.id) return t.id; var panel=t.closest('.panel'); if(!panel) return 't'; return panel.id+'|'+Array.prototype.indexOf.call(panel.querySelectorAll('table'), t); }
+function cellVal(td, type){
+  if(!td) return type==='num' ? -Infinity : '';
+  var sel=td.querySelector('select'); if(sel) return sel.value.toLowerCase();
+  var inp=td.querySelector('input'); if(inp) return (inp.value||'').toLowerCase();
+  var v=td.getAttribute('data-v');
+  if(v!==null && v!==''){ return type==='num' ? parseFloat(v) : v.toLowerCase(); }
+  var t=td.textContent.trim();
+  if(type==='num'){ var n=parseFloat(t.replace(/[^0-9.\-]/g,'')); return isNaN(n)?-Infinity:n; }
+  return t.toLowerCase();
+}
+function sortTable(table, idx, dir){
+  var ths=table.querySelectorAll('thead th');
+  ths.forEach(function(x){
+    var l=x.getAttribute('data-label');
+    x.classList.remove('sorted'); x.removeAttribute('data-dir');
+    if(l!==null && x.hasAttribute('data-sort')) x.innerHTML=esc(l)+'<span class="arr">⇅</span>';
+  });
+  var th=ths[idx]; if(!th) return;
+  var type=th.getAttribute('data-type')||'text';
+  th.setAttribute('data-dir', dir); th.classList.add('sorted');
+  th.innerHTML=esc(th.getAttribute('data-label'))+'<span class="arr">'+(dir==='asc'?'▲':'▼')+'</span>';
+  var tbody=table.querySelector('tbody'); if(!tbody) return;
+  var rows=Array.prototype.slice.call(tbody.querySelectorAll('tr')).filter(function(r){ return !r.querySelector('.empty') && r.cells.length>idx; });
+  rows.sort(function(a,b){ var va=cellVal(a.cells[idx],type), vb=cellVal(b.cells[idx],type); var c=(va<vb)?-1:(va>vb)?1:0; return dir==='asc'?c:-c; });
+  rows.forEach(function(r){ tbody.appendChild(r); });
+  SORTS[tableKey(table)]={idx:idx, dir:dir};
+}
+function makeSortable(table){
+  table.querySelectorAll('thead th').forEach(function(th, idx){
+    if(!th.hasAttribute('data-sort')) return;
+    if(th.getAttribute('data-label')===null) th.setAttribute('data-label', th.textContent.trim());
+    th.classList.add('sortable');
+    th.innerHTML=esc(th.getAttribute('data-label'))+'<span class="arr">⇅</span>';
+    th.onclick=function(){
+      var cur=th.getAttribute('data-dir');
+      var type=th.getAttribute('data-type')||'text';
+      var nd = cur ? (cur==='asc'?'desc':'asc') : (type==='num' ? 'desc' : 'asc');
+      sortTable(table, idx, nd);
+    };
+  });
+}
 
 function rowStatus(key){ var st=STATE[key]; return st ? st.s : 'pending'; }
 function filterRows(siteKey, text, status){
