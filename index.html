@@ -66,6 +66,8 @@
   select.status.live { background: var(--accentSoft); border-color: #a7f3d0; color: #065f46; }
   select.status.pending { background: #fffbeb; border-color: #fde68a; color: #92400e; }
   input.thread { width: 100%; min-width: 180px; padding: 7px 9px; border: 1px solid var(--line); border-radius: 8px; font-size: 12.5px; font-family: inherit; }
+  .tlink { margin-top: 5px; font-size: 12px; line-height: 1.45; word-break: break-all; }
+  .tlink a { color: var(--accent); text-decoration: underline; }
   input.thread:focus { outline: 2px solid #0f766e33; border-color: var(--accent); }
   .empty { padding: 30px 18px; text-align: center; color: var(--mut); font-size: 14px; }
   .multi { white-space: pre-line; font-size: 12.5px; }
@@ -179,7 +181,7 @@ function panelHTML(site){
       + '<td class="multi" data-v="'+esc(((r.refs||[])[0]||'').toLowerCase())+'">'+((r.refs&&r.refs.length)?('<div class="reflist">'+r.refs.map(function(u,i){return '<div class="refitem">'+(r.refs.length>1?'<span class="refnum">'+(i+1)+'</span>':'')+'<a href="'+esc(u)+'" target="_blank" rel="noopener">'+esc(u)+'</a></div>';}).join('')+'</div>'):'')+'</td>'
       + '<td data-v="'+esc((r.follow||'').toLowerCase())+'">'+esc(r.follow||'—')+'</td>'
       + '<td><select class="status '+st.s+'" data-key="'+esc(key)+'" onchange="setStatus(this)"><option value="pending"'+(st.s==='pending'?' selected':'')+'>Pending</option><option value="live"'+(st.s==='live'?' selected':'')+'>Live</option></select></td>'
-      + '<td><input class="thread" data-key="'+esc(key)+'" placeholder="Thread URL paste karein…" value="'+esc(st.t||'')+'" oninput="setThread(this)"></td>'
+      + '<td><input class="thread" data-key="'+esc(key)+'" placeholder="Thread URL paste karein…" value="'+esc(st.t||'')+'" oninput="setThread(this)" onchange="saveState(true)"><div class="tlink">'+(st.t?'<a href="'+esc(st.t)+'" target="_blank" rel="noopener">'+esc(st.t)+'</a>':'')+'</div></td>'
       + '</tr>';
   });
   h += '</tbody></table></div>';
@@ -247,10 +249,10 @@ function filterRows(siteKey, text, status){
 
 var saveTimer=null;
 function queueSave(){ clearTimeout(saveTimer); saveTimer=setTimeout(saveState, 700); }
-function saveState(){
+function saveState(quiet){
   fetch('https://getpantry.cloud/apiv1/pantry/'+PANTRY+'/basket/bl-status', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(STATE)})
-    .then(function(r){ if(r.ok) toast('Save ho gaya (cloud)'); })
-    .catch(function(){ try{ localStorage.setItem('bl_status_backup', JSON.stringify(STATE)); }catch(e){} toast('Cloud save fail — backup is browser mein save hai'); });
+    .then(function(r){ if(r.ok && !quiet) toast('Save ho gaya (cloud)'); })
+    .catch(function(){ try{ localStorage.setItem('bl_status_backup', JSON.stringify(STATE)); }catch(e){} if(!quiet) toast('Cloud save fail — backup is browser mein save hai'); });
 }
 function setStatus(sel){
   var key=sel.getAttribute('data-key');
@@ -259,7 +261,10 @@ function setStatus(sel){
 }
 function setThread(inp){
   var key=inp.getAttribute('data-key');
-  STATE[key]=STATE[key]||{s:'pending',t:''}; STATE[key].t=inp.value.trim(); queueSave();
+  STATE[key]=STATE[key]||{s:'pending',t:''}; STATE[key].t=inp.value.trim();
+  var box=inp.parentNode.querySelector('.tlink'); var v=STATE[key].t;
+  if(box) box.innerHTML = v ? '<a href="'+esc(v)+'" target="_blank" rel="noopener">'+esc(v)+'</a>' : '';
+  clearTimeout(saveTimer); saveTimer=setTimeout(function(){ saveState(true); }, 250);
 }
 var renderTimer=null;
 function renderSoon(){ clearTimeout(renderTimer); renderTimer=setTimeout(function(){ var active=document.querySelector('.tab.active'); var idx=Array.prototype.indexOf.call(document.querySelectorAll('.tab'), active); render(); var tabs=document.querySelectorAll('.tab'); if(tabs[idx]) tabs[idx].click(); }, 900); }
