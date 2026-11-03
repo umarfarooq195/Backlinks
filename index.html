@@ -90,6 +90,7 @@ var STATE = {};        // key: siteKey|domain -> {s:'pending'|'live', t:'thread 
 
 function toast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.style.display='block'; setTimeout(function(){t.style.display='none';}, 3200); }
 function fmtN(n){ if(n===null||n===undefined) return '<span class="pend">—</span>'; return Number(n).toLocaleString('en-US'); }
+function fmtT(n){ if(n===null||n===undefined) return '<span class="pend">—</span>'; var a=Math.abs(n), v, u; if(a>=1e9){ v=n/1e9; u='B'; } else if(a>=1e6){ v=n/1e6; u='M'; } else if(a>=1e3){ v=n/1e3; u='K'; } else { return String(n); } v=Math.round(v*10)/10; return v+u; }
 function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
 function fav(d){ return '<img alt="" loading="lazy" src="https://www.google.com/s2/favicons?domain='+encodeURIComponent(d)+'&sz=64">'; }
 function ageParts(iso){
@@ -146,7 +147,7 @@ function panelHTML(site){
     h += '<tr><td><span class="rank">'+(idx+1)+'</span></td><td class="dom" data-v="'+esc(c.domain.toLowerCase())+'">'+fav(c.domain)+'<a href="https://'+esc(c.domain)+'" target="_blank" rel="noopener">'+esc(c.domain)+'</a></td>'
        + '<td data-v="'+(c.dr==null?-1:c.dr)+'">'+(c.dr==null?'<span class="pend">—</span>':'<span class="dchip">'+c.dr+'</span>')+'</td>'
        + '<td data-v="'+(c.mozDA==null?-1:c.mozDA)+'">'+(c.mozDA==null?'<span class="pend">—</span>':'<span class="dchip">'+c.mozDA+'</span>')+'</td>'
-       + '<td class="num" data-v="'+(c.traffic==null?-1:c.traffic)+'">'+fmtN(c.traffic)+'</td>'
+       + '<td class="num" data-v="'+(c.traffic==null?-1:c.traffic)+'">'+fmtT(c.traffic)+'</td>'
        + '<td data-v="'+esc(c.reg||'9999')+'">'+ageText(c.reg, c.regApprox)+'<br><span class="pend" style="font-size:11px">'+dateText(c.reg)+'</span></td>'
        + '<td class="num" data-v="'+(c.pages==null?-1:c.pages)+'">'+fmtN(c.pages)+'</td><td class="num" data-v="'+(c.posts==null?-1:c.posts)+'">'+fmtN(c.posts)+'</td>'
        + '<td class="num" data-v="'+(c.backlinks==null?-1:c.backlinks)+'">'+fmtN(c.backlinks)+'</td><td class="num" data-v="'+(c.refdoms==null?-1:c.refdoms)+'">'+fmtN(c.refdoms)+'</td></tr>';
@@ -167,7 +168,7 @@ function panelHTML(site){
       + '<td class="dom" data-v="'+esc(r.domain.toLowerCase())+'">'+fav(r.domain)+'<a href="https://'+esc(r.domain)+'" target="_blank" rel="noopener">'+esc(r.domain)+'</a></td>'
       + '<td data-v="'+(r.dr==null?-1:r.dr)+'">'+(r.dr==null?'<span class="pend">—</span>':'<span class="dchip">'+r.dr+'</span>')+'</td>'
       + '<td data-v="'+(r.mozDA==null?-1:r.mozDA)+'">'+(r.mozDA==null?'<span class="pend">—</span>':'<span class="dchip">'+r.mozDA+'</span>')+'</td>'
-      + '<td class="num" data-v="'+(r.traffic==null?-1:r.traffic)+'">'+fmtN(r.traffic)+'</td>'
+      + '<td class="num" data-v="'+(r.traffic==null?-1:r.traffic)+'">'+fmtT(r.traffic)+'</td>'
       + '<td class="multi" data-v="'+esc((r.competitors||[]).join(' ').toLowerCase())+'">'+esc((r.competitors||[]).join('\n'))+'</td>'
       + '<td class="multi" data-v="'+esc(((r.refs||[])[0]||'').toLowerCase())+'">'+(r.refs||[]).map(function(u){return '<a href="'+esc(u)+'" target="_blank" rel="noopener">'+esc(u)+'</a>';}).join('<br>')+'</td>'
       + '<td data-v="'+esc((r.follow||'').toLowerCase())+'">'+esc(r.follow||'—')+'</td>'
