@@ -78,6 +78,63 @@
   .refitem + .refitem { border-top: 1px solid #111827; }
   .refnum { flex: none; background: var(--accentSoft); color: #065f46; font-weight: 700; font-size: 11px; border-radius: 99px; min-width: 19px; height: 19px; line-height: 19px; text-align: center; margin-top: 1px; }
   .reftag { flex: none; background: #e5e7eb; color: #111827; border: 1px solid #9ca3af; font-weight: 700; font-size: 10px; letter-spacing: .05em; text-transform: uppercase; border-radius: 4px; padding: 1px 5px; margin-top: 2px; }
+
+  /* ===== Ahrefs-style backlinks section (Umar, 2026-11-14) ===== */
+  .ah-wrap { background:#fff; border:1px solid #e3ddd2; border-radius:10px; overflow:hidden; margin-top:16px; font-family:"Helvetica Neue", Arial, sans-serif; }
+  .ah-bar1 { display:flex; align-items:center; gap:8px; flex-wrap:wrap; background:#faf8f4; border-bottom:1px solid #e3ddd2; padding:8px 10px; }
+  .ah-seg { display:flex; background:#fff; border:1px solid #d9d2c6; border-radius:7px; overflow:hidden; flex:none; }
+  .ah-chip { border:0; border-right:1px solid #e7e1d6; background:#fff; padding:6px 13px; font-size:13px; color:#3c3830; cursor:pointer; font-family:inherit; }
+  .ah-chip:last-child { border-right:0; }
+  .ah-chip:hover { background:#f5f2ec; }
+  .ah-chip.active { background:#ece8e0; font-weight:700; }
+  .ah-pill { border:1px solid #d9d2c6; background:#fff; border-radius:7px; padding:6px 8px; font-size:13px; color:#3c3830; font-family:inherit; }
+  label.ah-pill { display:inline-flex; align-items:center; gap:4px; }
+  label.ah-pill.on { background:#fff6da; border-color:#e8d48b; }
+  .ah-traf input { width:58px; border:0; outline:none; background:transparent; font-size:13px; font-family:inherit; }
+  .ah-x { border:0; background:none; cursor:pointer; color:#8a8378; font-size:12px; padding:0 2px; font-family:inherit; }
+  .ah-search { display:flex; align-items:center; gap:6px; background:#fff; border:1px solid #d9d2c6; border-radius:7px; padding:0 9px; height:32px; }
+  .ah-search input { border:0; outline:none; font-size:13px; width:150px; font-family:inherit; background:transparent; }
+  .ah-mag { color:#8a8378; font-size:15px; }
+  .ah-addf { font-size:13px; color:#3c3830; padding:6px 4px; }
+  .ah-right { margin-left:auto; display:flex; gap:8px; align-items:center; }
+  .ah-pillbtn { border:1px solid #d9d2c6; background:#fff; border-radius:7px; padding:6px 11px; font-size:13px; color:#3c3830; cursor:pointer; font-family:inherit; display:inline-block; }
+  .ah-pillbtn:hover { background:#f5f2ec; }
+  summary.ah-pillbtn { list-style:none; }
+  summary.ah-pillbtn::-webkit-details-marker { display:none; }
+  .ah-bar2 { display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding:8px 10px; border-bottom:1px solid #e3ddd2; background:#fff; font-size:13px; color:#3c3830; }
+  .ah-count b { font-size:13.5px; }
+  .ah-mode { border:1px solid #d9d2c6; background:#fff; border-radius:7px; padding:5px 7px; font-size:13px; font-family:inherit; }
+  .ah-tblscroll { overflow-x:auto; }
+  table.ahtable { border-collapse:collapse; width:100%; font-size:13px; min-width:900px; }
+  .ahtable th { text-align:left; padding:9px 12px; border-bottom:1px solid #e3ddd2; white-space:nowrap; font-size:12px; color:#7a7466; font-weight:600; background:#fff; text-transform:none; letter-spacing:0; }
+  .ahtable th.ah-num, .ahtable td.ah-num { font-variant-numeric:tabular-nums; }
+  .ahtable th.ah-sortable { cursor:pointer; user-select:none; }
+  .ahtable th.ah-sortable:hover { color:#3c3830; }
+  .ah-arr { color:#b0a894; font-size:10px; }
+  .ahtable td { padding:11px 12px; border-bottom:1px solid #efece5; vertical-align:top; }
+  .ahtable tbody tr:hover { background:#fcfaf6; }
+  .ah-domrow { display:flex; align-items:center; gap:7px; margin-bottom:3px; }
+  .ah-domrow img { width:16px; height:16px; border-radius:4px; }
+  .ah-dom { font-weight:700; color:#26241f; text-decoration:none; font-size:13.5px; }
+  .ah-dom:hover { text-decoration:underline; }
+  .ah-ref { font-size:12.5px; line-height:1.5; }
+  .ah-ref a { color:#0b5cad; text-decoration:none; word-break:break-all; }
+  .ah-ref a:hover { text-decoration:underline; }
+  .ah-more { background:none; border:0; color:#0b5cad; cursor:pointer; font-size:12px; padding:3px 0 0; font-family:inherit; }
+  .ah-labels { font-size:10.5px; letter-spacing:.5px; color:#a39a86; text-transform:uppercase; margin-bottom:3px; font-weight:600; min-height:13px; }
+  .ah-target a { color:#177245; text-decoration:none; font-size:12.5px; word-break:break-all; }
+  .ah-target a:hover { text-decoration:underline; }
+  .ah-pager { display:flex; align-items:center; gap:12px; padding:8px 10px; background:#faf8f4; font-size:13px; color:#3c3830; }
+  .ah-pbtn { border:1px solid #d9d2c6; background:#fff; border-radius:7px; padding:5px 12px; font-size:13px; cursor:pointer; font-family:inherit; }
+  .ah-pbtn:disabled { opacity:.45; cursor:default; }
+  .ah-cols { position:relative; }
+  .ah-colmenu { position:absolute; right:0; top:38px; background:#fff; border:1px solid #d9d2c6; border-radius:8px; box-shadow:0 10px 26px rgba(30,27,20,.14); padding:9px 12px; z-index:20; display:flex; flex-direction:column; gap:6px; font-size:13px; min-width:180px; }
+  .ah-colmenu label { display:flex; gap:7px; align-items:center; cursor:pointer; }
+  .ahtable.hide-dr td:nth-child(2), .ahtable.hide-dr th:nth-child(2) { display:none; }
+  .ahtable.hide-traffic td:nth-child(3), .ahtable.hide-traffic th:nth-child(3) { display:none; }
+  .ahtable.hide-anchor td:nth-child(4), .ahtable.hide-anchor th:nth-child(4) { display:none; }
+  .ahtable.hide-status td:nth-child(5), .ahtable.hide-status th:nth-child(5) { display:none; }
+  .ahtable.hide-thread td:nth-child(6), .ahtable.hide-thread th:nth-child(6) { display:none; }
   #toast { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); background: var(--ink); color: #fff; padding: 11px 20px; border-radius: 10px; font-size: 14px; display: none; z-index: 50; box-shadow: 0 8px 22px rgba(15,23,42,.28); }
 </style>
 </head>
@@ -168,30 +225,15 @@ function panelHTML(site){
   });
   h += '</tbody></table></div>';
   if(site.compNote) h += '<div style="font-size:12.5px;color:var(--mut);margin-top:8px">'+esc(site.compNote)+'</div>';
-  h += '<h2>Backlinks</h2>';
-  h += '<div class="filters"><input type="text" placeholder="Domain ya competitor search karein…" oninput="filterRows(\''+site.key+'\', this.value, document.getElementById(\'fstatus-'+site.key+'\').value)">'
-     + '<select id="fstatus-'+site.key+'" onchange="filterRows(\''+site.key+'\', document.querySelector(\'#panel-'+site.key+' .filters input\').value, this.value)"><option value="all">Sab status</option><option value="live">Live sirf</option><option value="pending">Pending sirf</option></select></div>';
-  h += '<div class="tblwrap"><table id="bl-'+site.key+'"><thead><tr><th>#</th><th data-sort data-type="text">Domain</th><th data-sort data-type="num">DR</th><th data-sort data-type="num">Moz DA</th><th class="num" data-sort data-type="num">Domain Traffic</th><th data-sort data-type="text">Competitor Domain</th><th data-sort data-type="text">Reference URL</th><th data-sort data-type="text">Dofollow / Nofollow</th><th data-sort data-type="text">Link Live / Pending</th><th data-sort data-type="text">Chosen Thread</th></tr></thead><tbody>';
-  if(!site.backlinks.length){
-    h += '<tr><td colspan="10"><div class="empty">Abhi is tab mein koi backlink row nahi.</div></td></tr>';
-  }
-  site.backlinks.forEach(function(r, ri){
-    var key = site.key+'|'+r.domain;
-    var st = STATE[key] || {s:'pending', t:''};
-    h += '<tr data-domain="'+esc(r.domain.toLowerCase())+'" data-comp="'+esc((r.competitors||[]).join(' ').toLowerCase())+'" data-key="'+esc(key)+'">'
-      + '<td><span class="rank rownum">'+(ri+1)+'</span></td>'
-      + '<td class="dom" data-v="'+esc(r.domain.toLowerCase())+'">'+fav(r.domain)+'<a href="https://'+esc(r.domain)+'" target="_blank" rel="noopener">'+esc(r.domain)+'</a></td>'
-      + '<td data-v="'+(r.dr==null?-1:r.dr)+'">'+(r.dr==null?'<span class="pend">—</span>':'<span class="dchip">'+r.dr+'</span>')+'</td>'
-      + '<td data-v="'+(r.mozDA==null?-1:r.mozDA)+'">'+(r.mozDA==null?'<span class="pend">—</span>':'<span class="dchip">'+r.mozDA+'</span>')+'</td>'
-      + '<td class="num" data-v="'+(r.traffic==null?-1:r.traffic)+'">'+fmtT(r.traffic)+'</td>'
-      + '<td class="multi" data-v="'+esc((r.competitors||[]).join(' ').toLowerCase())+'">'+esc((r.competitors||[]).join('\n'))+'</td>'
-      + '<td class="multi" data-v="'+esc(refU((r.refs||[])[0]).toLowerCase())+'">'+((r.refs&&r.refs.length)?('<div class="reflist">'+r.refs.map(function(u,i){var ru=(typeof u==='string')?{u:u}:u;var url=ru.u||'';return '<div class="refitem">'+(r.refs.length>1?'<span class="refnum">'+(i+1)+'</span>':'')+'<a href="'+esc(url)+'" target="_blank" rel="noopener">'+esc(url)+'</a>'+(ru.t?'<span class="reftag">'+esc(ru.t)+'</span>':'')+'</div>';}).join('')+'</div>'):'')+'</td>'
-      + '<td data-v="'+esc((r.follow||'').toLowerCase())+'">'+esc(r.follow||'—')+'</td>'
-      + '<td><select class="status '+st.s+'" data-key="'+esc(key)+'" onchange="setStatus(this)"><option value="pending"'+(st.s==='pending'?' selected':'')+'>Pending</option><option value="live"'+(st.s==='live'?' selected':'')+'>Live</option></select></td>'
-      + '<td><input class="thread" data-key="'+esc(key)+'" placeholder="Thread URL paste karein…" value="'+esc(st.t||'')+'" oninput="setThread(this)" onchange="saveState(true)"><div class="tlink">'+(st.t?'<a href="'+esc(st.t)+'" target="_blank" rel="noopener">'+esc(st.t)+'</a>':'')+'</div></td>'
-      + '</tr>';
-  });
-  h += '</tbody></table></div>';
+    h += '<div class="ah-wrap">' + blToolbarHTML(site);
+  h += '<div class="ah-tblscroll"><table class="ahtable" id="bl-'+site.key+'"><thead><tr>'
+     + '<th class="ah-sortable" onclick="blSort(\''+site.key+'\',\'domain\')">Referring page<span class="ah-arr" data-arr="domain"></span></th>'
+     + '<th class="ah-num ah-sortable" onclick="blSort(\''+site.key+'\',\'dr\')">DR<span class="ah-arr" data-arr="dr"></span></th>'
+     + '<th class="ah-num ah-sortable" onclick="blSort(\''+site.key+'\',\'traffic\')">Est. domain traffic<span class="ah-arr" data-arr="traffic"></span></th>'
+     + '<th class="ah-sortable" onclick="blSort(\''+site.key+'\',\'target\')">Anchor and target URL<span class="ah-arr" data-arr="target"></span></th>'
+     + '<th>Link Live / Pending</th><th>Chosen Thread</th></tr></thead>'
+     + '<tbody id="blbody-'+site.key+'">' + blRowsHTML(site) + '</tbody></table></div>';
+  h += '<div class="ah-pager" id="blpager-'+site.key+'">' + blPagerHTML(site) + '</div></div>';
   return h;
 }
 function card(lbl, val, sub){ return '<div class="card"><div class="lbl">'+lbl+'</div><div class="val">'+val+'</div>'+(sub?'<div class="sub">'+sub+'</div>':'')+'</div>'; }
@@ -241,19 +283,138 @@ function makeSortable(table){
   });
 }
 
-function rowStatus(key){ var st=STATE[key]; return st ? st.s : 'pending'; }
-function filterRows(siteKey, text, status){
-  text=(text||'').toLowerCase();
-  var n=0;
-  document.querySelectorAll('#bl-'+siteKey+' tbody tr[data-domain]').forEach(function(tr){
-    var okText = !text || tr.getAttribute('data-domain').indexOf(text)>-1 || tr.getAttribute('data-comp').indexOf(text)>-1;
-    var okStatus = status==='all' || rowStatus(tr.getAttribute('data-key'))===status;
-    var show = (okText && okStatus);
-    tr.style.display = show ? '' : 'none';
-    if(show){ n++; var c=tr.querySelector('.rownum'); if(c) c.textContent=n; }
+
+/* ===== Ahrefs-style backlinks table logic ===== */
+var BLV = {};
+var BL_PER = 100;
+function blv(k){ if(!BLV[k]) BLV[k]={chip:'all',q:'',refq:'',minT:'',minDR:'0',status:'all',mode:'one',page:1,sortKey:'',sortDir:-1}; return BLV[k]; }
+function rowHasTag(r, tag){ return (r.refs||[]).some(function(x){ return typeof x!=='string' && x && x.t && x.t.toLowerCase().indexOf(tag.toLowerCase())>-1; }); }
+function fmtDR(x){ var n=+x; return (n%1===0)? String(n|0) : String(Math.round(n*10)/10); }
+function fmtAT(n){ if(n==null) return '—'; var a=Math.abs(n); if(a>=1e9) return (Math.round(n/1e8)/10).toFixed(1)+'B'; if(a>=1e6) return (Math.round(n/1e5)/10).toFixed(1)+'M'; if(a>=1e3) return (Math.round(n/100)/10).toFixed(1)+'K'; return String(n); }
+function blFiltered(site){
+  var v=blv(site.key);
+  var rows=site.backlinks.filter(function(r){
+    if(v.chip==='dofollow' && r.follow!=='dofollow') return false;
+    if(v.chip==='nofollow' && r.follow!=='nofollow') return false;
+    if(v.chip==='ugc' && !rowHasTag(r,'UGC')) return false;
+    if(v.chip==='sponsored' && !rowHasTag(r,'Sponsored')) return false;
+    if(v.minDR && +v.minDR>0 && (r.dr==null || r.dr < +v.minDR)) return false;
+    if(v.minT!=='' && +v.minT>0 && (r.traffic==null || r.traffic < +v.minT)) return false;
+    if(v.status!=='all' && rowStatus(site.key+'|'+r.domain)!==v.status) return false;
+    if(v.q){ var q=v.q.toLowerCase(); var hay=r.domain.toLowerCase()+' '+(r.competitors||[]).join(' ').toLowerCase()+' '+(r.refs||[]).map(refU).join(' ').toLowerCase(); if(hay.indexOf(q)===-1) return false; }
+    if(v.refq){ var rq=v.refq.toLowerCase(); if(!(r.refs||[]).some(function(x){ return refU(x).toLowerCase().indexOf(rq)>-1; })) return false; }
+    return true;
   });
+  if(v.sortKey){
+    var dir=v.sortDir;
+    rows.sort(function(a,b){
+      var va, vb;
+      if(v.sortKey==='domain'){ va=a.domain.toLowerCase(); vb=b.domain.toLowerCase(); }
+      else if(v.sortKey==='dr'){ va=(a.dr==null?-1:a.dr); vb=(b.dr==null?-1:b.dr); }
+      else if(v.sortKey==='traffic'){ va=(a.traffic==null?-1:a.traffic); vb=(b.traffic==null?-1:b.traffic); }
+      else { va=((a.competitors||[])[0]||'').toLowerCase(); vb=((b.competitors||[])[0]||'').toLowerCase(); }
+      var c=(va<vb)?-1:(va>vb)?1:0; return c*dir;
+    });
+  }
+  return rows;
+}
+function blRowHTML(site, r){
+  var key=site.key+'|'+r.domain;
+  var st=STATE[key]||{s:'pending',t:''};
+  var v=blv(site.key);
+  var refs=(r.refs||[]).map(function(x){ return (typeof x==='string')?{u:x}:x; });
+  var showAll = v.mode==='all';
+  var first = showAll?refs:refs.slice(0,1);
+  var rest = showAll?[]:refs.slice(1);
+  function refLine(x){ return '<div class="ah-ref"><a href="'+esc(x.u||'')+'" target="_blank" rel="noopener">'+esc(x.u||'')+'</a>'+(x.t?' <span class="reftag">'+esc(x.t)+'</span>':'')+'</div>'; }
+  var refHtml = first.map(refLine).join('');
+  if(rest.length){ refHtml += '<div class="ah-rest" style="display:none">'+rest.map(refLine).join('')+'</div><button type="button" class="ah-more" onclick="blMore(this)">▾ '+rest.length+' more links</button>'; }
+  var tags=[]; if(r.follow) tags.push(r.follow.toUpperCase());
+  var seen={}; refs.forEach(function(x){ if(x.t && !seen[x.t]){ seen[x.t]=1; tags.push(x.t.toUpperCase()); } });
+  var comps=r.competitors||[];
+  var tgt = comps.length? '<a href="https://'+esc(comps[0])+'/" target="_blank" rel="noopener">https://'+esc(comps[0])+'/</a>' : '<span class="pend">—</span>';
+  if(comps.length>1){ tgt += '<div class="ah-rest" style="display:none">'+comps.slice(1).map(function(c){ return '<div><a href="https://'+esc(c)+'/" target="_blank" rel="noopener">https://'+esc(c)+'/</a></div>'; }).join('')+'</div><button type="button" class="ah-more" onclick="blMore(this)">▾ '+(comps.length-1)+' more targets</button>'; }
+  return '<tr data-domain="'+esc(r.domain.toLowerCase())+'" data-key="'+esc(key)+'">'
+    + '<td><div class="ah-domrow">'+fav(r.domain)+'<a class="ah-dom" href="https://'+esc(r.domain)+'" target="_blank" rel="noopener">'+esc(r.domain)+'</a></div>'+refHtml+'</td>'
+    + '<td class="ah-num">'+(r.dr==null?'<span class="pend">—</span>':fmtDR(r.dr))+'</td>'
+    + '<td class="ah-num">'+(r.traffic==null?'<span class="pend">—</span>':fmtAT(r.traffic))+'</td>'
+    + '<td><div class="ah-labels">'+esc(tags.join('  '))+'</div><div class="ah-target">'+tgt+'</div></td>'
+    + '<td><select class="status '+st.s+'" data-key="'+esc(key)+'" onchange="setStatus(this)"><option value="pending"'+(st.s==='pending'?' selected':'')+'>Pending</option><option value="live"'+(st.s==='live'?' selected':'')+'>Live</option></select></td>'
+    + '<td><input class="thread" data-key="'+esc(key)+'" placeholder="Thread URL paste karein…" value="'+esc(st.t||'')+'" oninput="setThread(this)" onchange="saveState(true)"><div class="tlink">'+(st.t?'<a href="'+esc(st.t)+'" target="_blank" rel="noopener">'+esc(st.t)+'</a>':'')+'</div></td></tr>';
+}
+function blRowsHTML(site){
+  var v=blv(site.key);
+  var rows=blFiltered(site);
+  var pages=Math.max(1, Math.ceil(rows.length/BL_PER));
+  if(v.page>pages) v.page=pages;
+  var slice=rows.slice((v.page-1)*BL_PER, v.page*BL_PER);
+  if(!slice.length) return '<tr><td colspan="6"><div class="empty">Is filter mein koi backlink nahi.</div></td></tr>';
+  return slice.map(function(r){ return blRowHTML(site, r); }).join('');
+}
+function blPagerHTML(site){
+  var v=blv(site.key); var n=blFiltered(site).length; var pages=Math.max(1,Math.ceil(n/BL_PER));
+  var a = n? ((v.page-1)*BL_PER+1) : 0, b=Math.min(n, v.page*BL_PER);
+  return '<span>'+a+'&ndash;'+b+' of '+n+'</span>'
+    + '<button type="button" class="ah-pbtn" '+(v.page<=1?'disabled':'')+' onclick="blPage(\''+site.key+'\',-1)">‹ Prev</button>'
+    + '<span>Page '+v.page+' / '+pages+'</span>'
+    + '<button type="button" class="ah-pbtn" '+(v.page>=pages?'disabled':'')+' onclick="blPage(\''+site.key+'\',1)">Next ›</button>';
+}
+function blToolbarHTML(site){
+  var k=site.key, v=blv(k);
+  function chip(c,label){ return '<button type="button" class="ah-chip'+(v.chip===c?' active':'')+'" onclick="blChip(\''+k+'\',\''+c+'\',this)">'+label+'</button>'; }
+  function dropt(val,label){ return '<option value="'+val+'"'+(v.minDR===val?' selected':'')+'>'+label+'</option>'; }
+  var h='<div class="ah-bar1"><div class="ah-seg">'+chip('all','All')+chip('dofollow','Dofollow')+chip('nofollow','Nofollow')+chip('ugc','UGC')+chip('sponsored','Sponsored')+'</div>';
+  h+='<select class="ah-pill" onchange="blMinDR(\''+k+'\',this.value)">'+dropt('0','DR')+dropt('10','DR: 10+')+dropt('20','DR: 20+')+dropt('30','DR: 30+')+dropt('50','DR: 50+')+dropt('70','DR: 70+')+'</select>';
+  h+='<label class="ah-pill ah-traf'+(v.minT!=='' && +v.minT>0?' on':'')+'">Domain traffic: From <input type="number" min="0" placeholder="1" value="'+esc(v.minT)+'" oninput="blMinT(\''+k+'\',this.value)"><button type="button" class="ah-x" onclick="blClearT(\''+k+'\',this)" title="Clear">✕</button></label>';
+  h+='<div class="ah-search"><span class="ah-mag">⌕</span><input type="text" placeholder="Word or phrase" value="'+esc(v.q)+'" oninput="blQ(\''+k+'\',this.value)"></div>';
+  h+='<div class="ah-search"><input type="text" placeholder="Ref. page URL" value="'+esc(v.refq)+'" oninput="blRefQ(\''+k+'\',this.value)"></div>';
+  h+='<span class="ah-addf">+ Add filter</span>';
+  h+='<div class="ah-right"><button type="button" class="ah-pillbtn">Presets ▾</button><button type="button" class="ah-pillbtn">+</button></div></div>';
+  h+='<div class="ah-bar2"><span class="ah-count"><b id="blcount-'+k+'">'+blFiltered(site).length+'</b> groups of links</span>';
+  h+='<select class="ah-mode" onchange="blMode(\''+k+'\',this.value)"><option value="one"'+(v.mode==='one'?' selected':'')+'>One link per domain</option><option value="all"'+(v.mode==='all'?' selected':'')+'>All links</option></select>';
+  h+='<select class="ah-mode" onchange="blStatusF(\''+k+'\',this.value)"><option value="all"'+(v.status==='all'?' selected':'')+'>All status</option><option value="live"'+(v.status==='live'?' selected':'')+'>Live</option><option value="pending"'+(v.status==='pending'?' selected':'')+'>Pending</option></select>';
+  h+='<div class="ah-right"><details class="ah-cols"><summary class="ah-pillbtn">▦ Columns</summary><div class="ah-colmenu">'
+    + '<label><input type="checkbox" checked onchange="blCol(\''+k+'\',\'dr\',this.checked)"> DR</label>'
+    + '<label><input type="checkbox" checked onchange="blCol(\''+k+'\',\'traffic\',this.checked)"> Est. domain traffic</label>'
+    + '<label><input type="checkbox" checked onchange="blCol(\''+k+'\',\'anchor\',this.checked)"> Anchor and target URL</label>'
+    + '<label><input type="checkbox" checked onchange="blCol(\''+k+'\',\'status\',this.checked)"> Link Live / Pending</label>'
+    + '<label><input type="checkbox" checked onchange="blCol(\''+k+'\',\'thread\',this.checked)"> Chosen Thread</label>'
+    + '</div></details>'
+    + '<button type="button" class="ah-pillbtn">&lt;/&gt; API</button>'
+    + '<button type="button" class="ah-pillbtn" onclick="blExport(\''+k+'\')">Export</button></div></div>';
+  return h;
+}
+function blRender(k){
+  var site=null; SITES.forEach(function(s){ if(s.key===k) site=s; }); if(!site) return;
+  var tb=document.getElementById('blbody-'+k); if(tb) tb.innerHTML=blRowsHTML(site);
+  var pg=document.getElementById('blpager-'+k); if(pg) pg.innerHTML=blPagerHTML(site);
+  var ct=document.getElementById('blcount-'+k); if(ct) ct.textContent=blFiltered(site).length;
+  var v=blv(k); var panel=document.getElementById('panel-'+k);
+  if(panel){ panel.querySelectorAll('.ah-arr').forEach(function(sp){ var kk=sp.getAttribute('data-arr'); sp.textContent = (v.sortKey===kk) ? (v.sortDir===1?' ▲':' ▼') : ''; }); }
+}
+function blChip(k,c,el){ var v=blv(k); v.chip=c; v.page=1; el.parentNode.querySelectorAll('.ah-chip').forEach(function(x){ x.classList.remove('active'); }); el.classList.add('active'); blRender(k); }
+function blQ(k,val){ var v=blv(k); v.q=val; v.page=1; blRender(k); }
+function blRefQ(k,val){ var v=blv(k); v.refq=val; v.page=1; blRender(k); }
+function blMinT(k,val){ var v=blv(k); v.minT=val; v.page=1; var lab=document.querySelector('#panel-'+k+' .ah-traf'); if(lab) lab.classList.toggle('on', val!=='' && +val>0); blRender(k); }
+function blClearT(k,btn){ var v=blv(k); v.minT=''; v.page=1; var lab=btn.closest('.ah-traf'); if(lab){ lab.classList.remove('on'); var inp=lab.querySelector('input'); if(inp) inp.value=''; } blRender(k); }
+function blMinDR(k,val){ var v=blv(k); v.minDR=val; v.page=1; blRender(k); }
+function blMode(k,val){ var v=blv(k); v.mode=val; blRender(k); }
+function blStatusF(k,val){ var v=blv(k); v.status=val; v.page=1; blRender(k); }
+function blSort(k,key){ var v=blv(k); if(v.sortKey===key){ v.sortDir=-v.sortDir; } else { v.sortKey=key; v.sortDir=(key==='domain'||key==='target')?1:-1; } blRender(k); }
+function blPage(k,d){ var v=blv(k); v.page=Math.max(1, v.page+d); blRender(k); var pg=document.getElementById('blpager-'+k); if(pg) pg.scrollIntoView({block:'nearest'}); }
+function blMore(btn){ var prev=btn.previousElementSibling; if(prev){ var open=prev.style.display!=='none'; prev.style.display=open?'none':''; btn.textContent = btn.textContent.replace(open?'▴':'▾', open?'▾':'▴'); } }
+function blCol(k, col, on){ var t=document.getElementById('bl-'+k); if(t) t.classList.toggle('hide-'+col, !on); }
+function csvq(s){ s=String(s==null?'':s); return '"'+s.replace(/"/g,'""')+'"'; }
+function blExport(k){
+  var site=null; SITES.forEach(function(s){ if(s.key===k) site=s; }); if(!site) return;
+  var rows=blFiltered(site);
+  var csv='Domain,DR,Domain Traffic,Competitor Domain,Reference URL,Follow,Status,Chosen Thread\n';
+  rows.forEach(function(r){ var st=STATE[k+'|'+r.domain]||{s:'pending',t:''};
+    csv += [csvq(r.domain), r.dr==null?'':r.dr, r.traffic==null?'':r.traffic, csvq((r.competitors||[]).join(' ')), csvq((r.refs||[]).map(refU).join(' ')), csvq(r.follow||''), st.s, csvq(st.t||'')].join(',')+'\n'; });
+  var blob=new Blob([csv], {type:'text/csv'}); var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='backlinks-'+k+'.csv'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
 }
 
+function rowStatus(key){ var st=STATE[key]; return st ? st.s : 'pending'; }
 var saveTimer=null;
 function queueSave(){ clearTimeout(saveTimer); saveTimer=setTimeout(saveState, 700); }
 function saveState(quiet){
