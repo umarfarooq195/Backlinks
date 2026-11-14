@@ -423,13 +423,17 @@ function saveState(quiet){
   var url='https://getpantry.cloud/apiv1/pantry/'+PANTRY+'/basket/bl-status';
   var body=JSON.stringify(STATE);
   function fail(){ if(!quiet) toast('Cloud save fail — backup is browser mein save hai'); }
-  fetch(url, {method:'PUT', headers:{'Content-Type':'application/json'}, body: body})
-    .then(function(r){ if(r.ok){ if(!quiet) toast('Save ho gaya (cloud)'); return; }
-      fetch(url, {method:'POST', headers:{'Content-Type':'application/json'}, body: body})
-        .then(function(r2){ if(r2.ok){ if(!quiet) toast('Save ho gaya (cloud)'); } else fail(); })
-        .catch(fail);
-    })
-    .catch(fail);
+  function attempt(n){
+    fetch(url, {method:'PUT', headers:{'Content-Type':'application/json'}, body: body, keepalive:true})
+      .then(function(r){ if(r.ok){ if(!quiet) toast('Save ho gaya (cloud)'); return; }
+        if(n<4){ setTimeout(function(){ attempt(n+1); }, 900*(n+1)); return; }
+        fetch(url, {method:'POST', headers:{'Content-Type':'application/json'}, body: body, keepalive:true})
+          .then(function(r2){ if(r2.ok){ if(!quiet) toast('Save ho gaya (cloud)'); } else fail(); })
+          .catch(fail);
+      })
+      .catch(function(){ if(n<4){ setTimeout(function(){ attempt(n+1); }, 900*(n+1)); } else fail(); });
+  }
+  attempt(0);
 }
 function setStatus(sel){
   var key=sel.getAttribute('data-key');
