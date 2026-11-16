@@ -520,13 +520,20 @@ function loadState(){
       // domain key move to the bare-domain key so they stay attached to the
       // merged row (only when the bare key has no entry of its own).
       Object.keys(STATE).forEach(function(k){ var i = k.indexOf('|www.'); if(i > -1){ var ck = k.slice(0, i+1) + k.slice(i+5); if(!(ck in STATE)) STATE[ck] = STATE[k]; } });
+      // valid keys = rows that actually exist on the dashboard (2026-11-16).
+      // A status whose row was deleted is dropped locally and can never be
+      // rescued back from a browser backup — that rescue is what brought the
+      // 10 deleted links back as Live on 2026-11-15.
+      var validK={}; SITES.forEach(function(s2){ (s2.backlinks||[]).forEach(function(r2){ validK[s2.key+'|'+r2.domain]=1; }); });
+      Object.keys(STATE).forEach(function(k){ if(k.charAt(0)!=='_' && !validK[k]) delete STATE[k]; });
       // browser-backup rescue (2026-11-14): entries stranded in this
       // browser's backup by the old POST-only saves are merged in (only
       // where they add a thread or a Live the cloud copy lacks) and the
       // merged state is pushed back up, so nothing stays browser-only.
+      // 2026-11-16: rescue only applies to keys whose row still exists.
       var rescued=false;
       try{ var bk=JSON.parse(localStorage.getItem('bl_status_backup')||'{}');
-        Object.keys(bk).forEach(function(k){ var b=bk[k], c=STATE[k];
+        Object.keys(bk).forEach(function(k){ if(!validK[k]) return; var b=bk[k], c=STATE[k];
           if(!c){ STATE[k]=b; rescued=true; }
           else if((b.t && !c.t) || (b.s==='live' && c.s!=='live')){ STATE[k]={s:(b.s==='live'?'live':c.s), t:(b.t||c.t||'')}; rescued=true; }
         });
